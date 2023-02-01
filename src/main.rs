@@ -3,7 +3,7 @@ use wgpu_toutorial::state::State;
 use winit::{
     event::*,
     event_loop::{ControlFlow, EventLoop},
-    window::{Window, WindowBuilder},
+    window::WindowBuilder,
 };
 
 fn main() {
@@ -18,14 +18,15 @@ fn main() {
             window_id,
         } if window_id == window.id() && !state.input(event) => match event {
             WindowEvent::CloseRequested => *control_flow = ControlFlow::Exit,
-            WindowEvent::KeyboardInput { input, .. } => match input {
-                KeyboardInput {
-                    state: ElementState::Pressed,
-                    virtual_keycode: Some(VirtualKeyCode::Escape),
-                    ..
-                } => *control_flow = ControlFlow::Exit,
-                _ => {}
-            },
+            WindowEvent::KeyboardInput {
+                input:
+                    KeyboardInput {
+                        state: ElementState::Pressed,
+                        virtual_keycode: Some(VirtualKeyCode::Escape),
+                        ..
+                    },
+                ..
+            } => *control_flow = ControlFlow::Exit,
             WindowEvent::Resized(new_size) => state.resize(*new_size),
             WindowEvent::ScaleFactorChanged { new_inner_size, .. } => {
                 state.resize(**new_inner_size)
@@ -38,7 +39,7 @@ fn main() {
                 Ok(_) => {}
                 Err(wgpu::SwapChainError::Lost) => state.recreate_swapchain(),
                 Err(wgpu::SwapChainError::OutOfMemory) => *control_flow = ControlFlow::Exit,
-                Err(e) => eprintln!("{}", e),
+                Err(e) => eprintln!("{e}"),
             }
         }
         Event::MainEventsCleared => window.request_redraw(),
