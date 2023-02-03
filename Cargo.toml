@@ -12,3 +12,4 @@ futures = "0.3.15"
 image = "0.24.5"
 winit = "0.27.5"
 wgpu = "0.15.0"
+bytemuck = { version = "1.13.0", features = ["derive"] }
