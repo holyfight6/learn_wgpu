@@ -1,5 +1,5 @@
 [package]
-name = "wgpu_toutorial"
+name = "learn_wgpu"
 version = "0.1.0"
 authors = ["LuoZhipeng <holyfight6@gmail.com>"]
 edition = "2021"

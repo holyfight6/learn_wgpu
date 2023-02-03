@@ -1,5 +1,5 @@
 use futures::executor::block_on;
-use wgpu_toutorial::state::State;
+use learn_wgpu::state::State;
 
 fn main() {
     block_on(State::run());
