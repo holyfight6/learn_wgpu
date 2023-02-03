@@ -99,6 +99,7 @@ impl State {
                 }
                 _ => {}
             },
+            Event::MainEventsCleared => state.window.request_redraw(),
             Event::RedrawRequested(_) => {
                 state.update();
                 match state.render() {
@@ -108,7 +109,6 @@ impl State {
                     Err(e) => eprintln!("{e}"),
                 }
             }
-            Event::MainEventsCleared => state.window.request_redraw(),
             _ => {}
         });
     }
