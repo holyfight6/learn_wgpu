@@ -12,6 +12,7 @@ pub struct State {
     config: wgpu::SurfaceConfiguration,
     size: winit::dpi::PhysicalSize<u32>,
     window: Window,
+    clear_color: wgpu::Color,
 }
 
 impl State {
@@ -69,6 +70,7 @@ impl State {
             config,
             window,
             size,
+            clear_color: wgpu::Color::default(),
         }
     }
 
@@ -96,6 +98,14 @@ impl State {
                 WindowEvent::Resized(new_size) => state.resize(*new_size),
                 WindowEvent::ScaleFactorChanged { new_inner_size, .. } => {
                     state.resize(**new_inner_size)
+                }
+                WindowEvent::CursorMoved { position, .. } => {
+                    state.clear_color = wgpu::Color {
+                        r: position.x / state.size.width as f64,
+                        g: position.y / state.size.height as f64,
+                        b: 0.0,
+                        a: 1.0,
+                    };
                 }
                 _ => {}
             },
@@ -144,12 +154,7 @@ impl State {
                     view: &view,
                     resolve_target: None,
                     ops: wgpu::Operations {
-                        load: wgpu::LoadOp::Clear(wgpu::Color {
-                            r: 0.1,
-                            g: 0.2,
-                            b: 0.3,
-                            a: 1.0,
-                        }),
+                        load: wgpu::LoadOp::Clear(self.clear_color),
                         store: true,
                     },
                 })],
